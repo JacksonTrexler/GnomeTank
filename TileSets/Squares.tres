@@ -1,0 +1,14 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://t55gyrio8vv5"]
+
+[ext_resource type="Texture2D" uid="uid://bj3b152iw77td" path="res://TileSets/Box64GrassSheet.png" id="1_108bo"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sg4de"]
+texture = ExtResource("1_108bo")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+
+[resource]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_sg4de")
