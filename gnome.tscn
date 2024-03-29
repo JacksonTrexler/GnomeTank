@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwiq87l7psgif"]
+[gd_scene load_steps=3 format=3 uid="uid://bwiq87l7psgif"]
 
+[ext_resource type="Script" path="res://gnome.gd" id="1_1aqmw"]
 [ext_resource type="Texture2D" uid="uid://hnop25namqjn" path="res://Sprites/DrawnColor/just gnome.png" id="1_y444d"]
 
 [node name="Gnome" type="Node2D"]
+script = ExtResource("1_1aqmw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.05, 0.05)

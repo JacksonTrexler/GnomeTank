@@ -159,6 +159,7 @@ layer_1/tile_data = PackedInt32Array(458732, 131072, 1, 524268, 393216, 5, 45873
 zoom = Vector2(2, 2)
 
 [node name="GnomeBoard" type="TileMap" parent="."]
+unique_name_in_owner = true
 tile_set = ExtResource("2_b5qug")
 rendering_quadrant_size = 32
 format = 2
