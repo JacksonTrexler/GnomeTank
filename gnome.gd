@@ -11,6 +11,7 @@ var a_duration = 0
 var target_global_position = Vector2()
 var original_global_position = Vector2()
 var label_a_duration = Label.new()
+var tile_map
 
 enum AnimationStates {
 	IDLE,
@@ -22,6 +23,7 @@ enum AnimationStates {
 func _ready():
 	#label_a_duration.text = str(a_duration)
 	#label_a_duration.position = Vector2(0, -20)
+	print("gneady")
 	add_child(label_a_duration)
 	pass
 
@@ -36,7 +38,7 @@ func _process(delta):
 
 func jiggle(delta):
 	if(a_duration > 0 or sin(a_duration) == 0):
-		$Sprite2D.global_position.x = original_global_position.x + (sin(a_duration/6) * 5)
+		$Sprite2D.global_position.x = original_global_position.x + (sin(a_duration/5) * 3)
 		a_duration = a_duration - 1
 	else:
 		a_state = AnimationStates.IDLE
@@ -60,7 +62,7 @@ func travel(delta):
 		global_position += direction.normalized() * distance_to_move
 
 func move(move_pos):
-	var tile_map = get_node("%GnomeBoard")
+	#var tile_map = get_node("%GnomeBoard")
 	if not tile_map.is_tile_occupied(move_pos):
 		print("before: ", tile_map_position)
 		tile_map_position = tile_map.local_to_map(move_pos)
@@ -71,8 +73,10 @@ func move(move_pos):
 		a_state = AnimationStates.WALKING
 
 func move_map(move_pos):
-	var tile_map = get_node("%GnomeBoard")
-	if not tile_map.is_tile_occupied(move_pos):
+	#var tile_map = get_node("%GnomeBoard")
+	print(tile_map)
+	print(owner)
+	if tile_map.tile_move(tile_map_position, move_pos):
 		#print("before: ", tile_map_position)
 		tile_map_position = move_pos
 		#print("after: ", tile_map_position)
@@ -98,7 +102,7 @@ func _input(event):
 		wander()
 
 func update_tile_map_position():
-	var tile_map = get_node("%GnomeBoard") # Adjust the path to your TileMap node
+	#var tile_map = get_node("%GnomeBoard") # Adjust the path to your TileMap node
 	tile_map_position = tile_map.local_to_map(global_position)
 	global_position = tile_map.map_to_local(tile_map_position)
 	print(tile_map_position)
