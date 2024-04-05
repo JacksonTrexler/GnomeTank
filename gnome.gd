@@ -5,28 +5,59 @@ var selected = false
 var base_speed = 25
 var speed = 25 # Units per second
 var moving = false
+var jiggling = false
+var a_state = "idle"
+var a_duration = 0
 var target_global_position = Vector2()
+var original_global_position = Vector2()
+var label_a_duration = Label.new()
+
+enum AnimationStates {
+	IDLE,
+	WALKING,
+	JIGGLING
+}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	#label_a_duration.text = str(a_duration)
+	#label_a_duration.position = Vector2(0, -20)
+	add_child(label_a_duration)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if moving:
-		var direction = target_global_position - global_position
-		var distance_to_move = speed * delta
-		var distance_to_target = direction.length()
-		
-		speed = (base_speed * 2 + (base_speed * distance_to_target/ max(distance_to_move,1))) / 3
-		#print(speed)
-		if distance_to_target <= distance_to_move:
-			# Close enough to snap to the target.
-			global_position = target_global_position
-			moving = false
-		else:
-			# Move towards the target, clamping the movement to the distance to the target.
-			global_position += direction.normalized() * distance_to_move
+	#label_a_duration.text = str(global_position.x)
+	match a_state:
+		AnimationStates.WALKING:
+			travel(delta)
+		AnimationStates.JIGGLING:
+			jiggle(delta)
+
+func jiggle(delta):
+	if(a_duration > 0 or sin(a_duration) == 0):
+		$Sprite2D.global_position.x = original_global_position.x + (sin(a_duration/6) * 5)
+		a_duration = a_duration - 1
+	else:
+		a_state = AnimationStates.IDLE
+		global_position.x = original_global_position.x
+		print("done")
+
+func travel(delta):
+	var direction = target_global_position - global_position
+	var distance_to_move = speed * delta
+	var distance_to_target = direction.length()
+	
+	speed = (base_speed * 2 + (base_speed * distance_to_target/ max(distance_to_move,1))) / 3
+	#print(speed)
+	if distance_to_target <= distance_to_move:
+		# Close enough to snap to the target.
+		global_position = target_global_position
+		#moving = false
+		a_state = AnimationStates.IDLE
+	else:
+		# Move towards the target, clamping the movement to the distance to the target.
+		global_position += direction.normalized() * distance_to_move
 
 func move(move_pos):
 	var tile_map = get_node("%GnomeBoard")
@@ -36,7 +67,8 @@ func move(move_pos):
 		print("after: ", tile_map_position)
 		target_global_position = tile_map.map_to_local(tile_map_position)# + Vector2(tile_map.rendering_quadrant_size / 2, tile_map.rendering_quadrant_size / 2)
 		#print(target_global_position)
-		moving = true
+		#moving = true
+		a_state = AnimationStates.WALKING
 
 func move_map(move_pos):
 	var tile_map = get_node("%GnomeBoard")
@@ -46,9 +78,14 @@ func move_map(move_pos):
 		#print("after: ", tile_map_position)
 		target_global_position = tile_map.map_to_local(tile_map_position)# + Vector2(tile_map.rendering_quadrant_size / 2, tile_map.rendering_quadrant_size / 2)
 		#print(target_global_position)
-		moving = true
+		a_state = AnimationStates.WALKING
 	else:
-		bonk()
+		#shake(2000, 2000)
+		#jiggle($Sprite2D, 180, 3)
+		original_global_position = global_position
+		a_duration = 60
+		a_state = AnimationStates.JIGGLING
+		print(a_state)
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:

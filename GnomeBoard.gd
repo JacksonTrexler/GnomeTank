@@ -11,4 +11,9 @@ func _process(delta):
 	pass
 
 func is_tile_occupied(move_pos):
+	print(get_used_cells(1))
 	return false
+	
+func is_tile_empty(x: int, y: int) -> bool:
+	return false
+	#return get_cell(x,y) == get_cell
