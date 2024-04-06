@@ -37,7 +37,7 @@ func is_tile_empty(x: int, y: int) -> bool:
 	#return get_cell(x,y) == get_cell
 	
 func tile_move(token_pos: Vector2i, dest_pos: Vector2i, move_layer: int = 1, floor_layer: int = 0) -> bool:
-	if get_cell_source_id(move_layer,dest_pos) == -1:
+	if get_cell_source_id(move_layer,dest_pos) == -1 and get_cell_source_id(floor_layer,dest_pos) != -1:
 		set_cell(move_layer, dest_pos,3,get_cell_atlas_coords(move_layer,token_pos), 0)
 		erase_cell(move_layer, token_pos)
 		return true

@@ -98,30 +98,22 @@ func travel(delta):
 		global_position += direction.normalized() * distance_to_move
 
 func move(move_pos):
-	#var tile_map = get_node("%GnomeBoard")
 	if not tile_map.is_tile_occupied(move_pos):
 		print("before: ", tile_map_position)
 		tile_map_position = tile_map.local_to_map(move_pos)
 		print("after: ", tile_map_position)
 		target_global_position = tile_map.map_to_local(tile_map_position)# + Vector2(tile_map.rendering_quadrant_size / 2, tile_map.rendering_quadrant_size / 2)
-		#print(target_global_position)
 		#moving = true
 		a_state = AnimationStates.WALKING
 
 func move_map(move_pos):
-	#var tile_map = get_node("%GnomeBoard")
 	print(tile_map)
 	print(owner)
 	if tile_map.tile_move(tile_map_position, move_pos):
-		#print("before: ", tile_map_position)
 		tile_map_position = move_pos
-		#print("after: ", tile_map_position)
 		target_global_position = tile_map.map_to_local(tile_map_position)# + Vector2(tile_map.rendering_quadrant_size / 2, tile_map.rendering_quadrant_size / 2)
-		#print(target_global_position)
 		a_state = AnimationStates.WALKING
 	else:
-		#shake(2000, 2000)
-		#jiggle($Sprite2D, 180, 3)
 		original_global_position = global_position
 		a_duration = 4 * PI
 		a_duration_total = 4 * PI
@@ -129,14 +121,6 @@ func move_map(move_pos):
 		print(a_state)
 
 func _input(event):
-	#These events cannot take place without accounting for other gnomes, and should not be handled by the gnome scene
-	#Each gnome should move one at a time in these cases
-	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		#global_position = get_global_mouse_position()
-		#update_tile_map_position()
-	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		#move(get_global_mouse_position())
-		#update_tile_map_position()
 	if event.is_action_pressed("ui_accept"): # Checking if spacebar is pressed
 		action_plan()
 
@@ -151,7 +135,3 @@ func wander():
 	var random_index = randi() % directions.size()
 	var desired_move = Vector2(tile_map_position.x + directions[random_index].x,tile_map_position.y + directions[random_index].y)
 	move_map(desired_move)
-
-func bonk():
-	var tween = get_tree().create_tween()
-	tween.tween_property($Sprite2D, "modulate", Color.RED, 1)
