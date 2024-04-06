@@ -26,3 +26,5 @@ func haunt():
 
 func revive():
 	gnome_type = gnome_type_original
+	print("Resurrected, now change script and tile")
+	#IMPLEMENT

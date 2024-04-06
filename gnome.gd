@@ -19,6 +19,7 @@ var label_a_duration = Label.new()
 var tile_map
 
 var special_points = 1
+var special_points_max = 1
 var action_points = 1
 var gnome_type = GnomeTypes.GNOBODY_IN_PARTICULAR
 
@@ -42,8 +43,6 @@ enum GnomeTypes {
 	GNAVE,
 	GNOME_LONGER_WITH_US
 }
-
-
 
 func special():
 	print("Gnostalgic!")
