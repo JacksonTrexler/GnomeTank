@@ -1,3 +1,7 @@
+#Class definition
+class_name Gnome
+
+# Inheritance
 extends Node2D
 
 var tile_map_position = Vector2()
@@ -8,16 +12,47 @@ var moving = false
 var jiggling = false
 var a_state = "idle"
 var a_duration = 0
+var a_duration_total = 1
 var target_global_position = Vector2()
 var original_global_position = Vector2()
 var label_a_duration = Label.new()
 var tile_map
+
+var special_points = 1
+var action_points = 1
 
 enum AnimationStates {
 	IDLE,
 	WALKING,
 	JIGGLING
 }
+
+enum ActionTypes {
+	WANDER,
+	SPECIAL,
+	TALK
+}
+
+func special():
+	if special_points > 0:
+		print("Gnostic!")
+	else:
+		action_default()
+
+func talk():
+	print("Gn'ello!")
+
+func action_plan():
+	match randi() % ActionTypes.size():
+		0:
+			wander()
+		1:
+			special()
+		2:
+			talk()
+
+func action_default():
+	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,11 +73,12 @@ func _process(delta):
 
 func jiggle(delta):
 	if(a_duration > 0 or sin(a_duration) == 0):
-		$Sprite2D.global_position.x = original_global_position.x + (sin(a_duration/5) * 3)
-		a_duration = a_duration - 1
+		$Sprite2D.global_position.x = original_global_position.x + (sin(a_duration_total - a_duration) * 3)
+		#a_duration = a_duration - 1
+		a_duration -= delta * 20
 	else:
 		a_state = AnimationStates.IDLE
-		global_position.x = original_global_position.x
+		$Sprite2D.global_position.x = original_global_position.x
 		print("done")
 
 func travel(delta):
@@ -87,19 +123,22 @@ func move_map(move_pos):
 		#shake(2000, 2000)
 		#jiggle($Sprite2D, 180, 3)
 		original_global_position = global_position
-		a_duration = 60
+		a_duration = 4 * PI
+		a_duration_total = 4 * PI
 		a_state = AnimationStates.JIGGLING
 		print(a_state)
 
 func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		global_position = get_global_mouse_position()
-		update_tile_map_position()
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		move(get_global_mouse_position())
+	#These events cannot take place without accounting for other gnomes, and should not be handled by the gnome scene
+	#Each gnome should move one at a time in these cases
+	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		#global_position = get_global_mouse_position()
+		#update_tile_map_position()
+	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		#move(get_global_mouse_position())
 		#update_tile_map_position()
 	if event.is_action_pressed("ui_accept"): # Checking if spacebar is pressed
-		wander()
+		action_plan()
 
 func update_tile_map_position():
 	#var tile_map = get_node("%GnomeBoard") # Adjust the path to your TileMap node
