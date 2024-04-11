@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://f602mu853owx"]
+
+[ext_resource type="SpriteFrames" uid="uid://7tqtp7gqn7af" path="res://Sprites/Effects/RetroImpactEffects/RetroImpactSpriteFrames.tres" id="1_ivp4n"]
+
+[node name="SpookyEffect" type="AnimatedSprite2D"]
+texture_filter = 1
+sprite_frames = ExtResource("1_ivp4n")
+frame_progress = 0.778075
+speed_scale = 3.0

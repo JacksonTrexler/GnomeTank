@@ -1,0 +1,6 @@
+[gd_resource type="AnimatedTexture" load_steps=2 format=3 uid="uid://b1imcv5kl6fo4"]
+
+[ext_resource type="Texture2D" uid="uid://68tsufhcrf4" path="res://Sprites/Effects/RetroImpactEffects/SpookyAnim.png" id="1_mwrfj"]
+
+[resource]
+frame_0/texture = ExtResource("1_mwrfj")

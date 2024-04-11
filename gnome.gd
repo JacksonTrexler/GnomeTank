@@ -74,6 +74,7 @@ func _ready():
 	#label_a_duration.text = str(a_duration)
 	#label_a_duration.position = Vector2(0, -20)
 	add_child(label_a_duration)
+	print("gnosty")
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
