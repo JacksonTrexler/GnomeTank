@@ -15,13 +15,16 @@ var a_duration = 0
 var a_duration_total = 1
 var target_global_position = Vector2()
 var original_global_position = Vector2()
-var label_a_duration = Label.new()
 var tile_map
 
 var special_points = 1
 var special_points_max = 1
 var action_points = 1
 var gnome_type = GnomeTypes.GNOBODY_IN_PARTICULAR
+
+var sprite : Sprite2D
+var texture : Texture2D
+var tween : Tween
 
 enum AnimationStates {
 	IDLE,
@@ -71,15 +74,33 @@ func action_default():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#label_a_duration.text = str(a_duration)
-	#label_a_duration.position = Vector2(0, -20)
-	add_child(label_a_duration)
+	setup_sprite()
+	setup_texture()
+	setup_tween()
 	print("gnosty")
 	pass
 
+func setup_sprite():
+	if not sprite:
+		sprite = Sprite2D.new()
+		add_child(sprite)
+
+func setup_texture():
+	texture = load("uid://hnop25namqjn")
+	sprite.texture = texture
+	
+	#Reserved for small, stout, and tall sprites as gneeded
+	#sprite.apply_scale(Vector2(0.05,0.05))
+	#sprite.apply_scale(Vector2(32,32) / texture.get_size())
+	var scaler = 32 / texture.get_size().y
+	sprite.apply_scale(Vector2(scaler,scaler))
+	
+func setup_tween():
+	tween = get_tree().create_tween()
+	#add_child(tween)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#label_a_duration.text = str(global_position.x)
 	match a_state:
 		AnimationStates.WALKING:
 			travel(delta)
@@ -88,11 +109,11 @@ func _process(delta):
 
 func jiggle(delta):
 	if(a_duration > 0 or sin(a_duration) == 0):
-		$Sprite2D.global_position.x = original_global_position.x + (sin(a_duration_total - a_duration) * 3)
+		sprite.global_position.x = original_global_position.x + (sin(a_duration_total - a_duration) * 3)
 		a_duration -= delta * 20
 	else:
 		a_state = AnimationStates.IDLE
-		$Sprite2D.global_position.x = original_global_position.x
+		sprite.global_position.x = original_global_position.x
 
 func travel(delta):
 	var direction = target_global_position - global_position
@@ -141,3 +162,10 @@ func wander():
 	var random_index = randi() % directions.size()
 	var desired_move = Vector2(tile_map_position.x + directions[random_index].x,tile_map_position.y + directions[random_index].y)
 	move_map(desired_move)
+
+#Animation
+func flash_sprite(duration: float = 0.5, intensity: float = 1.5):
+	# Set the initial modulate color to normal
+	tween.tween_property(sprite, "modulate", Color.RED, 1)
+	tween.tween_property(sprite, "scale", Vector2(), 1)
+	tween.tween_callback(sprite.queue_free)
