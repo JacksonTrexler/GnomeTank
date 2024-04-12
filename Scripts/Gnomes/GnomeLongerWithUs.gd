@@ -2,29 +2,21 @@ extends Gnome
 
 #Default
 var gnome_type_original = GnomeTypes.GNOBODY_IN_PARTICULAR
-var retro_impact_sprite_frames = preload('uid://7tqtp7gqn7af') #res://Sprites/Effects/RetroImpactEffects/RetroImpactSpriteFrames.tres
-var animation_effect
 var revive_effect
+#uid://cqk1pmiw706xb
+
+func _ready():
+	default_texture = preload("uid://cqk1pmiw706xb")
+	super._ready()
+	special_points = 1
+	special_points_max = 1
 
 func _init():
+	frames = preload('uid://7tqtp7gqn7af') #res://Sprites/Effects/RetroImpactEffects/RetroImpactSpriteFrames.tres
 	gnome_type = GnomeTypes.GNOME_LONGER_WITH_US
 
-func setup_animation(animation):
-	if not animation_effect:
-		animation_effect = AnimatedSprite2D.new()
-		animation_effect.frames = retro_impact_sprite_frames
-		animation_effect.animation = animation
-		add_child(animation_effect)
-		animation_effect.play()
-		await animation_effect.animation_looped
-		animation_effect.pause()
-
-func try_special():
-	if(special_points > 0):
-		special_points -= 1
-		special()
-
 func wander():
+	#Graves don't walk
 	pass
 	
 func talk():

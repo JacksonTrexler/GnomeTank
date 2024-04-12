@@ -5,5 +5,5 @@
 [node name="SpookyEffect" type="AnimatedSprite2D"]
 texture_filter = 1
 sprite_frames = ExtResource("1_ivp4n")
-frame_progress = 0.778075
+animation = &"white_star"
 speed_scale = 3.0

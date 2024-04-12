@@ -1,18 +1,11 @@
 extends Gnome
 
-
-
 func _ready():
+	default_texture = preload("uid://ctowkdx25a87g")
 	super._ready()
-	special_points = 1
-	special_points_max = 1
-
-func setup_texture():
-	texture = load("uid://ctowkdx25a87g")
-	sprite.texture = texture
-	#sprite.apply_scale(Vector2(0.05,0.05))
-	var scaler = 32 / texture.get_size().y
-	sprite.apply_scale(Vector2(scaler,scaler))
+	special_points = 3
+	special_points_max = 3
+	special_points_recovery = 1
 
 func talk():
 	print("Gnehehe")
@@ -27,7 +20,7 @@ func try_special():
 
 func wander():
 	try_special()
-	
+
 func special() -> bool:
 	var potential_graves = tile_map.get_surrounding_cells(tile_map_position)
 	var siblings = get_parent().get_children()
@@ -37,9 +30,5 @@ func special() -> bool:
 		if Vector2i(tile_map.get_cell_atlas_coords(1, grave)) == Vector2i(7,1):
 			tile_map.get_gnome(Vector2i(grave)).revive()
 			found = true
-			#flash_sprite()
-			print("bim")
-			tween = get_tree().create_tween()
-			tween.tween_property(sprite, "modulate", Color.GREEN, 0.2).set_trans(Tween.TRANS_SINE)
-			tween.tween_property(sprite, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_SINE)
+			sprite_flash(Color.GREEN)
 	return found

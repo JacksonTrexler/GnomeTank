@@ -19,12 +19,19 @@ var tile_map
 
 var special_points = 1
 var special_points_max = 1
+var special_points_recovery = 5
+var special_points_recovery_threshold = 100
+var special_points_recovery_total = 0
 var action_points = 1
+
 var gnome_type = GnomeTypes.GNOBODY_IN_PARTICULAR
 
 var sprite : Sprite2D
 var texture : Texture2D
 var tween : Tween
+
+var frames = preload('uid://7tqtp7gqn7af')
+var default_texture = preload("uid://hnop25namqjn")
 
 enum AnimationStates {
 	IDLE,
@@ -44,7 +51,8 @@ enum GnomeTypes {
 	GNIGHT,
 	GNUN,
 	GNAVE,
-	GNOME_LONGER_WITH_US
+	GNOME_LONGER_WITH_US,
+	MAGICIAGN
 }
 
 func special():
@@ -68,6 +76,11 @@ func action_plan():
 			try_special()
 		2:
 			talk()
+	if special_points < special_points_max:
+		special_points_recovery_total += special_points_recovery
+	if special_points_recovery_total >= special_points_recovery_threshold:
+		special_points = special_points_max
+		special_points_recovery_total -= special_points_recovery_threshold
 
 func action_default():
 	pass
@@ -75,7 +88,7 @@ func action_default():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	setup_sprite()
-	setup_texture()
+	setup_texture(default_texture)
 	setup_tween()
 	print("gnosty")
 	pass
@@ -85,8 +98,8 @@ func setup_sprite():
 		sprite = Sprite2D.new()
 		add_child(sprite)
 
-func setup_texture():
-	texture = load("uid://hnop25namqjn")
+func setup_texture(setup_texture = load("uid://hnop25namqjn")):
+	texture = setup_texture
 	sprite.texture = texture
 	
 	#Reserved for small, stout, and tall sprites as gneeded
@@ -94,6 +107,15 @@ func setup_texture():
 	#sprite.apply_scale(Vector2(32,32) / texture.get_size())
 	var scaler = 32 / texture.get_size().y
 	sprite.apply_scale(Vector2(scaler,scaler))
+
+func setup_animation(animation):
+	var animation_effect = AnimatedSprite2D.new()
+	animation_effect.frames = frames
+	animation_effect.animation = animation
+	add_child(animation_effect)
+	animation_effect.play()
+	await animation_effect.animation_looped
+	animation_effect.pause()
 	
 func setup_tween():
 	tween = get_tree().create_tween()
@@ -164,8 +186,8 @@ func wander():
 	move_map(desired_move)
 
 #Animation
-func flash_sprite(duration: float = 0.5, intensity: float = 1.5):
+func sprite_flash(color : Color):
 	# Set the initial modulate color to normal
-	tween.tween_property(sprite, "modulate", Color.RED, 1)
-	tween.tween_property(sprite, "scale", Vector2(), 1)
-	tween.tween_callback(sprite.queue_free)
+	tween = get_tree().create_tween()
+	tween.tween_property(sprite, "modulate", color, 0.2).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(sprite, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_SINE)
