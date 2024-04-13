@@ -31,8 +31,30 @@ func determine_gnome_script(token):
 			return "res://Scripts/Gnomes/GnomeLongerWithUs.gd"
 		Vector2i(2,0):
 			return "res://Scripts/Gnomes/Gnecromancer.gd"
+		Vector2i(3,0):
+			return "res://Scripts/Gnomes/GnotLongForThisWorld.gd"
 		_:
 			return "res://Scripts/Gnomes/GnobodyInParticular.gd"
+
+func determine_gnome_tile(gnome_type):
+	match gnome_type:
+		"GNECROMANCER":
+			return Vector2i(2,0)
+		"GNIGHT":
+			return Vector2i(3,1)
+		"GNUN":
+			return Vector2i(6,0)
+		"GNAVE":
+			return Vector2i(6,1)
+		"GNOME_LONGER_WITH_US":
+			return Vector2i(7,1)
+		"MAGICIAGN":
+			return Vector2i(1,1)
+		"GNOT_LONG_FOR_THIS_WORLD":
+			return Vector2i(3,0)
+		_:
+			return Vector2i(4,1)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	second_timer += delta

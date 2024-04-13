@@ -3,16 +3,23 @@ extends Gnome
 #Default
 var gnome_type_original = GnomeTypes.GNOBODY_IN_PARTICULAR
 var revive_effect
+var gnome_original
 #uid://cqk1pmiw706xb
 
 func _ready():
+	gnome_type = GnomeTypes.GNOME_LONGER_WITH_US
+	#if not gnome_original:
+	#	gnome_original = gnome_scene.instantiate()
+	#	add_sibling(gnome_original)
+	#	gnome_original.hide()
+	#	gnome_original.set_process(false)
 	default_texture = preload("uid://cqk1pmiw706xb")
 	super._ready()
 	special_points = 1
 	special_points_max = 1
 
 func _init():
-	frames = preload('uid://7tqtp7gqn7af') #res://Sprites/Effects/RetroImpactEffects/RetroImpactSpriteFrames.tres
+	#frames = preload('uid://7tqtp7gqn7af') #res://Sprites/Effects/RetroImpactEffects/RetroImpactSpriteFrames.tres
 	gnome_type = GnomeTypes.GNOME_LONGER_WITH_US
 
 func wander():
@@ -31,10 +38,22 @@ func haunt():
 	print("oOoOo")
 
 func revive():
-	gnome_type = gnome_type_original
-	setup_animation("green_cloud")
+	#gnome_type = gnome_type_original
 	print("Resurrected, now change script and tile")
-	#IMPLEMENT
+	if gnome_original:
+		gnome_original.show()
+		gnome_original.set_process(true)
+		tile_map.set_cell(1,tile_map_position,tile_map.determine_gnome_tile(gnome_original.gnome_type))
+		queue_free()
+	else:
+		#Spawn skeletogn? Grave goodies? Otherwise just destroy it
+		tile_map.set_cell(1,tile_map_position,3,Vector2i(-1,-1))
+		action_points = 0
+		action_points_max = 0
+		sprite_hide()
+		await setup_animation("green_cloud")
+		queue_free()
+	#add_sibling(gnome_original)
 
 #UTILITY FUNCTIONS
 

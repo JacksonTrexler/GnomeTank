@@ -23,8 +23,11 @@ var special_points_recovery = 5
 var special_points_recovery_threshold = 100
 var special_points_recovery_total = 0
 var action_points = 1
+var action_points_recovery = 1
+var action_points_max = 1
 
 var gnome_type = GnomeTypes.GNOBODY_IN_PARTICULAR
+var original_script
 
 var sprite : Sprite2D
 var texture : Texture2D
@@ -32,6 +35,7 @@ var tween : Tween
 
 var frames = preload('uid://7tqtp7gqn7af')
 var default_texture = preload("uid://hnop25namqjn")
+var gnome_scene = preload("uid://bwiq87l7psgif")
 
 enum AnimationStates {
 	IDLE,
@@ -52,10 +56,12 @@ enum GnomeTypes {
 	GNUN,
 	GNAVE,
 	GNOME_LONGER_WITH_US,
-	MAGICIAGN
+	MAGICIAGN,
+	GNOT_LONG_FOR_THIS_WORLD
 }
 
 func special():
+	action_points -= 1
 	print("Gnostalgic!")
 
 func try_special():
@@ -66,32 +72,47 @@ func try_special():
 		action_default()
 
 func talk():
+	action_points -= 1
 	print("Gn'ello!")
 
 func action_plan():
-	match randi() % ActionTypes.size():
-		0:
-			wander()
-		1:
-			try_special()
-		2:
-			talk()
-	if special_points < special_points_max:
-		special_points_recovery_total += special_points_recovery
-	if special_points_recovery_total >= special_points_recovery_threshold:
-		special_points = special_points_max
-		special_points_recovery_total -= special_points_recovery_threshold
+	if action_points > 0:
+		match randi() % ActionTypes.size():
+			0:
+				wander()
+			1:
+				try_special()
+			2:
+				talk()
+		if special_points < special_points_max:
+			special_points_recovery_total += special_points_recovery
+		if special_points_recovery_total >= special_points_recovery_threshold:
+			special_points = special_points_max
+			special_points_recovery_total -= special_points_recovery_threshold
+	if action_points < action_points_max:
+		action_points += action_points_recovery
 
 func action_default():
 	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if not tile_map:
+		tile_map = get_parent()
 	setup_sprite()
 	setup_texture(default_texture)
 	setup_tween()
 	print("gnosty")
 	pass
+
+func death():
+	var tombstone = gnome_scene.instantiate()
+	add_sibling(tombstone)
+	#tombstone.add_script("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
+	tombstone.script = load("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
+	tombstone.gnome_original = self
+	hide()
+	set_process(false)
 
 func setup_sprite():
 	if not sprite:
@@ -116,6 +137,7 @@ func setup_animation(animation):
 	animation_effect.play()
 	await animation_effect.animation_looped
 	animation_effect.pause()
+	return true
 	
 func setup_tween():
 	tween = get_tree().create_tween()
@@ -180,6 +202,7 @@ func update_tile_map_position():
 	print(tile_map_position)
 	
 func wander():
+	action_points -= 1
 	var directions = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
 	var random_index = randi() % directions.size()
 	var desired_move = Vector2(tile_map_position.x + directions[random_index].x,tile_map_position.y + directions[random_index].y)
@@ -191,3 +214,7 @@ func sprite_flash(color : Color):
 	tween = get_tree().create_tween()
 	tween.tween_property(sprite, "modulate", color, 0.2).set_trans(Tween.TRANS_SINE)
 	tween.tween_property(sprite, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_SINE)
+
+func sprite_hide():
+	tween = get_tree().create_tween()
+	tween.tween_property(sprite,"modulate", Color.TRANSPARENT, 1).set_ease(Tween.EASE_IN)

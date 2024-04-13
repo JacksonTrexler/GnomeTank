@@ -2,6 +2,7 @@ extends Gnome
 
 func _ready():
 	default_texture = preload("uid://ctowkdx25a87g")
+	gnome_type = GnomeTypes.GNECROMANCER
 	super._ready()
 	special_points = 3
 	special_points_max = 3
@@ -17,9 +18,6 @@ func try_special():
 		else:
 			action_default()
 	#Check for nearby dead gnomes
-
-func wander():
-	try_special()
 
 func special() -> bool:
 	var potential_graves = tile_map.get_surrounding_cells(tile_map_position)
