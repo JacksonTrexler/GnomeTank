@@ -7,6 +7,7 @@ var gnome_original
 #uid://cqk1pmiw706xb
 
 func _ready():
+	print("tomb")
 	gnome_type = GnomeTypes.GNOME_LONGER_WITH_US
 	#if not gnome_original:
 	#	gnome_original = gnome_scene.instantiate()
@@ -27,23 +28,29 @@ func wander():
 	pass
 	
 func talk():
-	print("...")
+	#print("...")
+	pass
 
 func special():
+	special_points -= 1
+	print(special_points)
 	haunt()
 	
 func haunt():
 	#IMPLEMENT Display spooky effect, prevent neighbors from taking actions next turn
 	play_animation_spooky()
-	print("oOoOo")
+	#print("oOoOo")
 
 func revive():
 	#gnome_type = gnome_type_original
-	print("Resurrected, now change script and tile")
+	print("revive ", gnome_original)
 	if gnome_original:
+		print("Resurrected, now change script and tile")
+		await setup_animation("green_cloud")
 		gnome_original.show()
 		gnome_original.set_process(true)
-		tile_map.set_cell(1,tile_map_position,tile_map.determine_gnome_tile(gnome_original.gnome_type))
+		tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile(gnome_original.gnome_type))
+		await setup_animation("green_cloud")
 		queue_free()
 	else:
 		#Spawn skeletogn? Grave goodies? Otherwise just destroy it

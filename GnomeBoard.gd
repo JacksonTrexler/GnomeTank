@@ -9,14 +9,19 @@ func _ready():
 	tokens = get_used_cells(1)
 	
 	for token in tokens:
-		var gnome_instance = gnome_scene.instantiate()
-		var gnome_type_script = determine_gnome_script(token)
-		if gnome_type_script:
-			gnome_instance.script = load(gnome_type_script)
-		gnome_instance.tile_map = self
-		add_child(gnome_instance)
-		gnome_instance.tile_map_position = token
-		gnome_instance.global_position = map_to_local(token)
+		spawn_gnome(token,gnome_scene)
+
+func spawn_gnome(token, gnome_scene = load("res://gnome.tscn")):
+	var gnome_instance = gnome_scene.instantiate()
+	var gnome_type_script = determine_gnome_script(token)
+	if gnome_type_script:
+		gnome_instance.script = load(gnome_type_script)
+	gnome_instance.tile_map = self
+	add_child(gnome_instance)
+	gnome_instance.tile_map_position = token
+	gnome_instance.global_position = map_to_local(token)
+	print("spawned gnome at", token, " of type: ", gnome_scene)
+	return gnome_instance
 
 func get_gnome(token):
 	for gnome in get_children():

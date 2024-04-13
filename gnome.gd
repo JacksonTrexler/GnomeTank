@@ -106,13 +106,19 @@ func _ready():
 	pass
 
 func death():
-	var tombstone = gnome_scene.instantiate()
-	add_sibling(tombstone)
+	#var tombstone = gnome_scene.instantiate()
+	#add_sibling(tombstone)
 	#tombstone.add_script("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
-	tombstone.script = load("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
-	tombstone.gnome_original = self
+	#tombstone.script = load("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
+	#tombstone.gnome_original = self
 	hide()
+	tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile("GNOME_LONGER_WITH_US"))
+	var tombstone = tile_map.spawn_gnome(tile_map_position)
+	#tombstone.gnome_original = self
 	set_process(false)
+
+func revive():
+	pass
 
 func setup_sprite():
 	if not sprite:
@@ -133,6 +139,7 @@ func setup_animation(animation):
 	var animation_effect = AnimatedSprite2D.new()
 	animation_effect.frames = frames
 	animation_effect.animation = animation
+	animation_effect.z_index = 2
 	add_child(animation_effect)
 	animation_effect.play()
 	await animation_effect.animation_looped
