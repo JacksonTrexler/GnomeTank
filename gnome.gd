@@ -26,8 +26,9 @@ var action_points = 1
 var action_points_recovery = 1
 var action_points_max = 1
 
-var gnome_type = GnomeTypes.GNOBODY_IN_PARTICULAR
+var gnome_type
 var original_script
+var gnome_original
 
 var sprite : Sprite2D
 var texture : Texture2D
@@ -112,7 +113,7 @@ func death():
 	#tombstone.script = load("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
 	#tombstone.gnome_original = self
 	hide()
-	tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile("GNOME_LONGER_WITH_US"))
+	tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile(GnomeTypes.GNOME_LONGER_WITH_US))
 	var tombstone = tile_map.spawn_gnome(tile_map_position)
 	tombstone.gnome_original = self
 	tile_map.remove_child(self)

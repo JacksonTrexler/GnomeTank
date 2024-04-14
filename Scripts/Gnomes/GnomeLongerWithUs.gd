@@ -3,7 +3,6 @@ extends Gnome
 #Default
 var gnome_type_original = GnomeTypes.GNOBODY_IN_PARTICULAR
 var revive_effect
-var gnome_original
 #uid://cqk1pmiw706xb
 
 func _ready():

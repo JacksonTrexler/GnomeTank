@@ -3,6 +3,7 @@ extends Gnome
 var second_wind
 
 func _ready():
+	print("typeset")
 	gnome_type = GnomeTypes.GNOT_LONG_FOR_THIS_WORLD
 	super._ready()
 
@@ -16,8 +17,10 @@ func wander():
 		super()
 
 func talk():
-	print("What's the point?")
-	suicide()
+	if not second_wind:
+		print("What's the point?")
+	else:
+		print("One day at a time!")
 
 func suicide():
 	if not second_wind:
@@ -26,5 +29,5 @@ func suicide():
 		second_wind = true
 		death()
 	else:
-		print("lease on life")
+		action_points += 2
 		special_points -= 1

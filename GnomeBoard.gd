@@ -43,19 +43,19 @@ func determine_gnome_script(token):
 
 func determine_gnome_tile(gnome_type):
 	match gnome_type:
-		"GNECROMANCER":
+		Gnome.GnomeTypes.GNECROMANCER:
 			return Vector2i(2,0)
-		"GNIGHT":
+		Gnome.GnomeTypes.GNIGHT:
 			return Vector2i(3,1)
-		"GNUN":
+		Gnome.GnomeTypes.GNUN:
 			return Vector2i(6,0)
-		"GNAVE":
+		Gnome.GnomeTypes.GNAVE:
 			return Vector2i(6,1)
-		"GNOME_LONGER_WITH_US":
+		Gnome.GnomeTypes.GNOME_LONGER_WITH_US:
 			return Vector2i(7,1)
-		"MAGICIAGN":
+		Gnome.GnomeTypes.MAGICIAGN:
 			return Vector2i(1,1)
-		"GNOT_LONG_FOR_THIS_WORLD":
+		Gnome.GnomeTypes.GNOT_LONG_FOR_THIS_WORLD:
 			return Vector2i(3,0)
 		_:
 			return Vector2i(4,1)
