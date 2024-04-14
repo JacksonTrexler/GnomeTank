@@ -46,21 +46,25 @@ func revive():
 	print("revive ", gnome_original)
 	if gnome_original:
 		print("Resurrected, now change script and tile")
-		await setup_animation("green_cloud")
 		gnome_original.show()
 		gnome_original.set_process(true)
+		add_sibling(gnome_original)
+		print(gnome_original.gnome_type)
 		tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile(gnome_original.gnome_type))
-		await setup_animation("green_cloud")
-		queue_free()
+		death()
 	else:
 		#Spawn skeletogn? Grave goodies? Otherwise just destroy it
 		tile_map.set_cell(1,tile_map_position,3,Vector2i(-1,-1))
-		action_points = 0
-		action_points_max = 0
-		sprite_hide()
-		await setup_animation("green_cloud")
-		queue_free()
+		death()
 	#add_sibling(gnome_original)
+
+func death():
+	action_points = 0
+	action_points_max = 0
+	sprite_hide()
+	await setup_animation("green_cloud")
+	print("Free")
+	queue_free()
 
 #UTILITY FUNCTIONS
 

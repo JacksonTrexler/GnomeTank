@@ -114,7 +114,8 @@ func death():
 	hide()
 	tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile("GNOME_LONGER_WITH_US"))
 	var tombstone = tile_map.spawn_gnome(tile_map_position)
-	#tombstone.gnome_original = self
+	tombstone.gnome_original = self
+	tile_map.remove_child(self)
 	set_process(false)
 
 func revive():
