@@ -1,5 +1,6 @@
 extends TileMap
 
+var actions_taken = 0
 var second_timer = 0.0
 var tokens
 
@@ -60,15 +61,34 @@ func determine_gnome_tile(gnome_type):
 		_:
 			return Vector2i(4,1)
 
+func gnome_round():
+	var round_actions_taken = 0
+	for gnome in get_children():
+		if gnome is Gnome:
+			#for ap in range(gnome.action_points):
+			if gnome.action_points > 0:
+				#print(Gnome.GnomeTypes.keys()[gnome.gnome_type])
+				gnome.action_plan()
+				gnome.action_points -= 1
+				round_actions_taken += 1
+	print(round_actions_taken)
+	return round_actions_taken
+
+func gnome_end_round():
+	for gnome in get_children():
+		if gnome is Gnome:
+			gnome.end_turn()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	second_timer += delta
 	if second_timer >= 1.0:
 		second_timer -= 1.0
-		for gnome in get_children():
-			if gnome is Gnome:
-				for ap in range(gnome.action_points):
-					gnome.action_plan()
+		if not gnome_round():
+			second_timer += 1.0
+			gnome_end_round()
+		else:
+			second_timer += 0.5
 
 func tile_move(token_pos: Vector2i, dest_pos: Vector2i, move_layer: int = 1, floor_layer: int = 0) -> bool:
 	if get_cell_source_id(move_layer,dest_pos) == -1 and get_cell_source_id(floor_layer,dest_pos) != -1:

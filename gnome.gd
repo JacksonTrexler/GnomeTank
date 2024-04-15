@@ -62,7 +62,6 @@ enum GnomeTypes {
 }
 
 func special():
-	action_points -= 1
 	print("Gnostalgic!")
 
 func try_special():
@@ -73,7 +72,6 @@ func try_special():
 		action_default()
 
 func talk():
-	action_points -= 1
 	print("Gn'ello!")
 
 func action_plan():
@@ -85,13 +83,25 @@ func action_plan():
 				try_special()
 			2:
 				talk()
-		if special_points < special_points_max:
-			special_points_recovery_total += special_points_recovery
+	#end_turn()
+
+func end_turn():
+	recover_special()
+	recover_action()
+	
+			
+func recover_special():
+	if special_points < special_points_max:
+		special_points_recovery_total += special_points_recovery
 		if special_points_recovery_total >= special_points_recovery_threshold:
-			special_points = special_points_max
+			special_points += 1 #WIS?
 			special_points_recovery_total -= special_points_recovery_threshold
+
+func recover_action():
 	if action_points < action_points_max:
 		action_points += action_points_recovery
+		if action_points > action_points_max:
+			action_points = action_points_max
 
 func action_default():
 	pass
@@ -112,12 +122,12 @@ func death():
 	#tombstone.add_script("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
 	#tombstone.script = load("res://Scripts/Gnomes/GnomeLongerWithUs.gd")
 	#tombstone.gnome_original = self
-	hide()
 	tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile(GnomeTypes.GNOME_LONGER_WITH_US))
 	var tombstone = tile_map.spawn_gnome(tile_map_position)
 	tombstone.gnome_original = self
 	tile_map.remove_child(self)
 	set_process(false)
+	
 
 func revive():
 	pass
@@ -211,7 +221,6 @@ func update_tile_map_position():
 	print(tile_map_position)
 	
 func wander():
-	action_points -= 1
 	var directions = [Vector2i(0, 1), Vector2i(1, 0), Vector2i(0, -1), Vector2i(-1, 0)]
 	var random_index = randi() % directions.size()
 	var desired_move = Vector2(tile_map_position.x + directions[random_index].x,tile_map_position.y + directions[random_index].y)
@@ -227,3 +236,9 @@ func sprite_flash(color : Color):
 func sprite_hide():
 	tween = get_tree().create_tween()
 	tween.tween_property(sprite,"modulate", Color.TRANSPARENT, 1).set_ease(Tween.EASE_IN)
+
+func sprite_fade_in():
+	tween = get_tree().create_tween()
+	sprite.modulate.a = 0
+	#tween.tween_property(sprite,"modulate", Color.TRANSPARENT, 0.01).set_ease(Tween.EASE_IN)
+	tween.tween_property(sprite,"modulate", Color.WHITE, 2).set_ease(Tween.EASE_IN)

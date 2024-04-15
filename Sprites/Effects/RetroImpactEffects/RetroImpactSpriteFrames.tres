@@ -1,7 +1,8 @@
-[gd_resource type="SpriteFrames" load_steps=15 format=3 uid="uid://7tqtp7gqn7af"]
+[gd_resource type="SpriteFrames" load_steps=23 format=3 uid="uid://7tqtp7gqn7af"]
 
 [ext_resource type="Texture2D" uid="uid://68tsufhcrf4" path="res://Sprites/Effects/RetroImpactEffects/SpookyAnim.png" id="1_jht5n"]
 [ext_resource type="Texture2D" uid="uid://ogfuilbosncs" path="res://Sprites/Effects/RetroImpactEffects/ReviveAnim.png" id="1_p7qkx"]
+[ext_resource type="Texture2D" uid="uid://btalklu2jwdnl" path="res://Sprites/Effects/RetroImpactEffects/PoofAnim.png" id="2_eky1q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mjf5w"]
 atlas = ExtResource("1_p7qkx")
@@ -26,6 +27,34 @@ region = Rect2(128, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_77k1i"]
 atlas = ExtResource("1_p7qkx")
 region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_seqnt"]
+atlas = ExtResource("2_eky1q")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nri35"]
+atlas = ExtResource("2_eky1q")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6e4y"]
+atlas = ExtResource("2_eky1q")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsfcc"]
+atlas = ExtResource("2_eky1q")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6mlqm"]
+atlas = ExtResource("2_eky1q")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmdkg"]
+atlas = ExtResource("2_eky1q")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anckh"]
+atlas = ExtResource("2_eky1q")
+region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hsqwy"]
 atlas = ExtResource("1_jht5n")
@@ -74,6 +103,32 @@ animations = [{
 }],
 "loop": true,
 "name": &"green_cloud",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_seqnt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nri35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6e4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fsfcc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6mlqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmdkg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anckh")
+}],
+"loop": true,
+"name": &"white_cloud",
 "speed": 5.0
 }, {
 "frames": [{

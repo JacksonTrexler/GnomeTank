@@ -6,7 +6,7 @@ var revive_effect
 #uid://cqk1pmiw706xb
 
 func _ready():
-	print("tomb")
+	setup_animation("white_cloud")
 	gnome_type = GnomeTypes.GNOME_LONGER_WITH_US
 	#if not gnome_original:
 	#	gnome_original = gnome_scene.instantiate()
@@ -17,6 +17,7 @@ func _ready():
 	super._ready()
 	special_points = 1
 	special_points_max = 1
+	sprite_fade_in()
 
 func _init():
 	#frames = preload('uid://7tqtp7gqn7af') #res://Sprites/Effects/RetroImpactEffects/RetroImpactSpriteFrames.tres

@@ -3,8 +3,8 @@ extends Gnome
 var second_wind
 
 func _ready():
-	print("typeset")
 	gnome_type = GnomeTypes.GNOT_LONG_FOR_THIS_WORLD
+	special_points_recovery = 20
 	super._ready()
 
 func special():

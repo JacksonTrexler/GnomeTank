@@ -30,3 +30,4 @@ func special() -> bool:
 			found = true
 			sprite_flash(Color.GREEN)
 	return found
+
