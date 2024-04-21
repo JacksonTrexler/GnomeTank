@@ -115,4 +115,5 @@ func get_gnomes_radius_diamond(get_position: Vector2i, range: int = 2, layer = 1
 			#set_cell(0,tile_position,0,Vector2i(2,0))
 			if get_cell_source_id(layer,tile_position) != -1:
 				found_tiles.append(tile_position)
+	print(found_tiles)
 	return found_tiles

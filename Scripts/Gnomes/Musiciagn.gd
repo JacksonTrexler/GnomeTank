@@ -12,10 +12,11 @@ func _ready():
 	print("gbard")
 	
 func talk():
-	print("Wanna hear a tune?")
+	#print("Wanna hear a tune?")
+	pass
 
 func special():
-	special_points -= 1
+	#special_points -= 1
 	perform(song)
 	print("Singing")
 
@@ -23,7 +24,12 @@ func perform(selected_song):
 	#get gnomes within 2 tiles
 	match song:
 		0:
-			print("0000")
-			tile_map.get_gnomes_radius_diamond(tile_map_position)
+			var targets = tile_map.get_gnomes_radius_diamond(tile_map_position,)
+			for target in targets:
+				var gnome = tile_map.get_gnome(target)
+				if gnome is Gnome:
+					gnome.action_points += action_points_recovery
+					gnome.setup_animation("white_focus")
+					print("boom")
 		_:
 			pass
