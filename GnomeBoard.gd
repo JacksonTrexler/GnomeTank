@@ -16,6 +16,7 @@ func spawn_gnome(token, gnome_scene = load("res://gnome.tscn")):
 	var gnome_instance = gnome_scene.instantiate()
 	var gnome_type_script = determine_gnome_script(token)
 	if gnome_type_script:
+		print(gnome_type_script)
 		gnome_instance.script = load(gnome_type_script)
 	gnome_instance.tile_map = self
 	add_child(gnome_instance)
@@ -39,6 +40,8 @@ func determine_gnome_script(token):
 			return "res://Scripts/Gnomes/Gnecromancer.gd"
 		Vector2i(3,0):
 			return "res://Scripts/Gnomes/GnotLongForThisWorld.gd"
+		Vector2i(4,0):
+			return "res://Scripts/Gnomes/Musiciagn.gd"
 		_:
 			return "res://Scripts/Gnomes/GnobodyInParticular.gd"
 
@@ -58,6 +61,8 @@ func determine_gnome_tile(gnome_type):
 			return Vector2i(1,1)
 		Gnome.GnomeTypes.GNOT_LONG_FOR_THIS_WORLD:
 			return Vector2i(3,0)
+		Gnome.GnomeTypes.MUSICIAGN:
+			return Vector2i(4,0)
 		_:
 			return Vector2i(4,1)
 
@@ -88,7 +93,7 @@ func _process(delta):
 			second_timer += 1.0
 			gnome_end_round()
 		else:
-			second_timer += 0.5
+			second_timer += 0.8
 
 func tile_move(token_pos: Vector2i, dest_pos: Vector2i, move_layer: int = 1, floor_layer: int = 0) -> bool:
 	if get_cell_source_id(move_layer,dest_pos) == -1 and get_cell_source_id(floor_layer,dest_pos) != -1:
