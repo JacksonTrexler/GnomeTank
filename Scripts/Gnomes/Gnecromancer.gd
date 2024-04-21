@@ -9,7 +9,8 @@ func _ready():
 	special_points_recovery = 1
 
 func talk():
-	print("Gnehehe")
+	#print("Gnehehe")
+	pass
 	
 func try_special():
 	if special_points > 0:
@@ -23,7 +24,7 @@ func special() -> bool:
 	var potential_graves = tile_map.get_surrounding_cells(tile_map_position)
 	var siblings = get_parent().get_children()
 	var found = false
-	print("Dark Gnumenescent forces coallesce within me!")
+	#print("Dark Gnumenescent forces coallesce within me!")
 	for grave in potential_graves:
 		if Vector2i(tile_map.get_cell_atlas_coords(1, grave)) == Vector2i(7,1):
 			tile_map.get_gnome(Vector2i(grave)).revive()

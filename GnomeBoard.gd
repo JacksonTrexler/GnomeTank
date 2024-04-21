@@ -6,6 +6,8 @@ var tokens
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	for i in get_gnomes_radius_diamond(Vector2i(0,0),5,1):
+		set_cell(0,i,0,Vector2i(2,0))
 	var gnome_scene = load("res://gnome.tscn")
 	tokens = get_used_cells(1)
 	
@@ -22,7 +24,7 @@ func spawn_gnome(token, gnome_scene = load("res://gnome.tscn")):
 	add_child(gnome_instance)
 	gnome_instance.tile_map_position = token
 	gnome_instance.global_position = map_to_local(token)
-	print("spawned gnome at", token, " of type: ", gnome_scene)
+	#print("spawned gnome at", token, " of type: ", gnome_scene)
 	return gnome_instance
 
 func get_gnome(token):
@@ -32,7 +34,7 @@ func get_gnome(token):
 
 func determine_gnome_script(token):
 	var atlas_coordinates = get_cell_atlas_coords(1, token)
-	print(atlas_coordinates)
+	#print(atlas_coordinates)
 	match atlas_coordinates:
 		Vector2i(7,1):
 			return "res://Scripts/Gnomes/GnomeLongerWithUs.gd"
@@ -76,7 +78,7 @@ func gnome_round():
 				gnome.action_plan()
 				gnome.action_points -= 1
 				round_actions_taken += 1
-	print(round_actions_taken)
+	#print(round_actions_taken)
 	return round_actions_taken
 
 func gnome_end_round():
@@ -102,3 +104,15 @@ func tile_move(token_pos: Vector2i, dest_pos: Vector2i, move_layer: int = 1, flo
 		return true
 	else:
 		return false
+
+func get_gnomes_radius_diamond(get_position: Vector2i, range: int = 2, layer = 1):
+	var found_tiles = []
+	for x in range(-range, range + 1):
+		for y in range(-range, range + 1):
+			if abs(x) + abs(y) > range:
+				continue
+			var tile_position = get_position + Vector2i(x,y)
+			#set_cell(0,tile_position,0,Vector2i(2,0))
+			if get_cell_source_id(layer,tile_position) != -1:
+				found_tiles.append(tile_position)
+	return found_tiles

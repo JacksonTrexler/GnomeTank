@@ -18,9 +18,12 @@ func wander():
 
 func talk():
 	if not second_wind:
-		print("What's the point?")
+		#print("What's the point?")
+		pass
 	else:
-		print("One day at a time!")
+		#print("One day at a time!")
+		pass
+	pass
 
 func suicide():
 	if not second_wind:

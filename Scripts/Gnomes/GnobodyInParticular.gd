@@ -5,7 +5,9 @@ func _init():
 	action_points_max = 5
 
 func talk():
-	print("I'm gnormal")
+	#print("I'm gnormal")
+	pass
 
 func special():
-	print("I'm gnew")
+	#print("I'm gnew")
+	pass

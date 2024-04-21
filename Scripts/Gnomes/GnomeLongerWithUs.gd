@@ -33,7 +33,7 @@ func talk():
 
 func special():
 	special_points -= 1
-	print(special_points)
+	#print(special_points)
 	haunt()
 	
 func haunt():
@@ -43,13 +43,13 @@ func haunt():
 
 func revive():
 	#gnome_type = gnome_type_original
-	print("revive ", gnome_original)
+	#print("revive ", gnome_original)
 	if gnome_original:
-		print("Resurrected, now change script and tile")
+		#print("Resurrected, now change script and tile")
 		gnome_original.show()
 		gnome_original.set_process(true)
 		add_sibling(gnome_original)
-		print(gnome_original.gnome_type)
+		#print(gnome_original.gnome_type)
 		tile_map.set_cell(1,tile_map_position,3,tile_map.determine_gnome_tile(gnome_original.gnome_type))
 		death()
 	else:
@@ -63,7 +63,7 @@ func death():
 	action_points_max = 0
 	sprite_hide()
 	await setup_animation("green_cloud")
-	print("Free")
+	#print("Free")
 	queue_free()
 
 #UTILITY FUNCTIONS
